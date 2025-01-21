@@ -400,6 +400,8 @@ impl IntoFuture for ClientBuilder {
                 #[cfg(feature = "cache")]
                 cache,
                 http,
+                #[cfg(feature = "framework")]
+                framework: Arc::clone(&framework_cell),
             };
             #[cfg(feature = "framework")]
             if let Some(mut framework) = framework {
@@ -626,6 +628,8 @@ pub struct Client {
     pub cache: Arc<Cache>,
     /// An HTTP client.
     pub http: Arc<Http>,
+    #[cfg(feature = "framework")]
+    pub framework: Arc<OnceLock<Arc<dyn Framework>>>,
 }
 
 impl Client {
